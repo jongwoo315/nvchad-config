@@ -13,6 +13,22 @@ return {
     end,
   },
 
+  -- :MasonInstallAll on fresh machine installs these
+  {
+    "mason-org/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "pyright",
+        "ruff",
+        "html-lsp",
+        "css-lsp",
+        "lua-language-server",
+        "stylua",
+        "debugpy",
+      },
+    },
+  },
+
   {
     "folke/persistence.nvim",
     event = "BufReadPre",
