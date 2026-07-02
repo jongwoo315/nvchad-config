@@ -30,6 +30,9 @@ mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null
 mv ~/.local/share/nvim ~/.local/share/nvim.bak 2>/dev/null
 
 git clone git@github.com:jongwoo315/nvchad-config.git ~/.config/nvim
+
+# SSH 키 아직 없으면 (새 맥) https로:
+# git clone https://github.com/jongwoo315/nvchad-config.git ~/.config/nvim
 ```
 
 ### 3. 첫 실행
@@ -63,22 +66,85 @@ nvim
 - **디버깅**: `<leader>db` breakpoint → `<leader>dc` → "Django runserver" 또는 "FastAPI (uvicorn)" 선택
   - Django config는 `--noreload` 강제 (reloader fork가 디버거 끊음)
 
-## 주요 키맵
+## 키맵
+
+`<leader>` = Space. 잊었을 때: Space 누르고 잠깐 대기 → which-key 팝업, 또는 `<leader>ch` (NvChad 치트시트).
+
+### 기본 (커스텀)
+
+| 키 | 동작 |
+|---|---|
+| `jk` (insert) | ESC |
+| `;` | `:` (command mode) |
+| `<Tab>` / `<S-Tab>` | 다음 / 이전 버퍼 |
+| `<leader>x` | 버퍼 닫기 (창 레이아웃 유지) |
+
+### 파일 탐색 (NvChad 기본)
+
+| 키 | 동작 |
+|---|---|
+| `<C-n>` | nvim-tree 토글 |
+| `<leader>e` | nvim-tree로 포커스 |
+| `<leader>ff` / `fw` / `fb` / `fo` | 파일 찾기 / 텍스트 검색(live grep) / 버퍼 / 최근 파일 |
+
+nvim-tree 안에서: `a` 새 파일(끝에 `/`면 디렉토리), `r` rename, `d` delete, `c`/`p` 복사/붙여넣기, `g?` 도움말
+
+### LSP
+
+| 키 | 동작 |
+|---|---|
+| `gd` / `gr` | 정의로 이동 / 참조 목록 |
+| `K` | hover 문서 |
+| `<leader>ca` | code action |
+| `<leader>ra` | rename (커스텀 — NvChad 기본 대체) |
+| `[d` / `]d` | 이전 / 다음 diagnostic |
+| `<leader>fm` | 포맷 (conform) |
+
+### Git
 
 | 키 | 동작 |
 |---|---|
 | `<leader>gg` / `gf` | lazygit / 현재 파일 lazygit |
-| `<leader>gd` / `gh` | diffview 토글 / 파일 히스토리 |
-| `<leader>gb` / `gB` / `gc` | 라인 blame 토글 / blame 팝업 / 현재 라인 커밋 열기 |
-| `<leader>db` `dc` `di` `do` `dO` `dq` `du` | breakpoint / continue / step into·over·out / 종료 / UI 토글 |
-| `<leader>tr` `tf` `td` `ts` `to` | nearest test / 파일 / 디버그 / summary / output |
-| `<leader>vs` | venv 선택 |
-| `<leader>x` | 버퍼 닫기 (레이아웃 유지) |
-| `<Tab>` / `<S-Tab>` | 버퍼 이동 |
-| `<leader>qs` / `ql` | 세션 복원 (cwd / last) |
-| `za` `zM` `zR` | 폴드 토글 / 전체 접기 / 전체 펼치기 |
+| `<leader>gd` | diffview 토글 (열려 있으면 닫힘) |
+| `<leader>gh` | 현재 파일 히스토리 (diffview) |
+| `<leader>gb` | 커서 라인 inline blame 토글 (기본 on) |
+| `<leader>gB` | blame 팝업 (커밋 메시지 전체 + hunk) |
+| `<leader>gc` | 현재 라인의 커밋을 diffview로 열기 |
 
-전체 목록: `lua/mappings.lua`, `lua/plugins/init.lua`의 `keys`
+diffview 안에서: `<leader>b` 파일 패널 토글, `<leader>gd` 또는 `:DiffviewClose`로 닫기
+
+### 디버깅 (dap)
+
+| 키 | 동작 |
+|---|---|
+| `<leader>db` | breakpoint 토글 |
+| `<leader>dc` | continue / 세션 시작 (launch config 선택) |
+| `<leader>di` / `do` / `dO` | step into / over / out |
+| `<leader>dq` | 세션 종료 |
+| `<leader>du` | dap-ui 토글 |
+
+### 테스트 (neotest)
+
+| 키 | 동작 |
+|---|---|
+| `<leader>tr` | 커서 위치 nearest test 실행 |
+| `<leader>tf` | 현재 파일 전체 실행 |
+| `<leader>td` | nearest test를 debugpy로 디버깅 |
+| `<leader>ts` | summary 트리 토글 |
+| `<leader>to` | 테스트 output 팝업 |
+
+### venv / 세션 / 폴딩
+
+| 키 | 동작 |
+|---|---|
+| `<leader>vs` | venv 선택 → pyright + dap 경로 전환 |
+| `<leader>qs` / `ql` | 세션 복원 (cwd / 마지막) |
+| `<leader>qd` | 이번 세션 저장 안 함 |
+| `za` / `zc` / `zo` | 폴드 토글 / 닫기 / 열기 |
+| `zM` / `zR` | 전체 접기 / 전체 펼치기 |
+| `zm` / `zr` | 레벨 단위 접기 / 펼치기 |
+
+정의 위치: 커스텀은 `lua/mappings.lua` + `lua/plugins/init.lua`의 `keys`, NvChad 기본은 `:h nvchad.mappings`
 
 ## 구조
 
