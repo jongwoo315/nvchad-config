@@ -51,6 +51,8 @@ nvim
 → pyright, ruff, html-lsp, css-lsp, lua-language-server, stylua, debugpy 설치
 (`lua/plugins/init.lua`의 mason `ensure_installed` 목록 기준)
 
+treesitter 파서(python, javascript 등)는 `ensure_installed`로 자동 설치 — `:TSInstall` 수동 실행 불필요
+
 ### 4. 확인
 
 ```vim

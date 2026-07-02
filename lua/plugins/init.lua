@@ -165,16 +165,18 @@ return {
     opts = {},
   },
 
+  -- parsers auto-install on first load (folding + neotest need python)
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim", "lua", "vimdoc",
+        "python", "javascript", "typescript", "java",
+        "html", "css", "json", "yaml", "toml", "markdown", "bash",
+      },
+    },
+  },
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
-
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
 }
