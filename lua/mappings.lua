@@ -17,8 +17,10 @@ map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer prev" })
 -- close buffer, keep window layout (tabufline disabled → close_buffer() crashes)
 map("n", "<leader>x", function()
   local cur = vim.api.nvim_get_current_buf()
+  -- terminal buffer holds live process → plain bdelete refuses (E89)
+  local force = vim.bo[cur].buftype == "terminal"
   vim.cmd "bprevious"
-  vim.cmd("bdelete " .. cur)
+  vim.cmd((force and "bdelete! " or "bdelete ") .. cur)
 end, { desc = "Close buffer" })
 
 -- gitsigns: inline blame per line (toggle)
