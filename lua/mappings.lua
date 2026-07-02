@@ -56,6 +56,12 @@ map("n", "<leader>gc", function()
   vim.cmd("DiffviewOpen " .. sha .. "^!")
 end, { desc = "Open commit of current line" })
 
+-- window resize (macOS: Ctrl+화살표가 Mission Control에 잡히면 시스템 설정 > 키보드 단축키에서 해제)
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Window height +" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Window height -" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Window width -" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Window width +" })
+
 -- persistence.nvim: session restore
 map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Session restore (cwd)" })
 map("n", "<leader>ql", function() require("persistence").load { last = true } end, { desc = "Session restore last" })

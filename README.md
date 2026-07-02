@@ -80,6 +80,9 @@ treesitter 파서(python, javascript 등)는 `ensure_installed`로 자동 설치
 | `;` | `:` (command mode) |
 | `<Tab>` / `<S-Tab>` | 다음 / 이전 버퍼 |
 | `<leader>x` | 버퍼 닫기 (창 레이아웃 유지) |
+| `<C-h/j/k/l>` | 창 이동 (NvChad 기본) |
+| `<C-화살표>` | 창 크기 조절 (±2) |
+| `<C-w>=` / `<C-w>\|` / `<C-w>_` | 창 균등 / 너비 최대 / 높이 최대 (vim 내장) |
 
 ### 파일 탐색 (NvChad 기본)
 
