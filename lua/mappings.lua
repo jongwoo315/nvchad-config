@@ -68,15 +68,23 @@ map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Window height -" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Window width -" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Window width +" })
 
--- <C-d>: 마지막 줄이 화면 바닥 아래로 지나가지 않게 (EOF 밑 빈 공간 스크롤 방지)
-map("n", "<C-d>", function()
-  vim.cmd 'execute "normal! \\<C-d>"'
-  if vim.fn.line "w$" >= vim.fn.line "$" then
-    local cur = vim.api.nvim_win_get_cursor(0)
-    vim.cmd "normal! Gzb" -- 마지막 줄을 창 바닥에 정렬
-    vim.api.nvim_win_set_cursor(0, cur)
+-- 아래로 스크롤 시 마지막 줄이 화면 바닥 아래로 지나가지 않게 (EOF 밑 빈 공간 방지)
+local function scroll_clamp(key)
+  return function()
+    vim.cmd(('execute "normal! \\<%s>"'):format(key))
+    if vim.fn.line "w$" >= vim.fn.line "$" and vim.fn.line "w0" > 1 then
+      local cur = vim.api.nvim_win_get_cursor(0)
+      vim.cmd "normal! Gzb" -- 마지막 줄을 창 바닥에 정렬
+      vim.api.nvim_win_set_cursor(0, cur)
+    end
   end
-end, { desc = "Half page down (clamp at EOF)" })
+end
+map("n", "<C-d>", scroll_clamp "C-d", { desc = "Half page down (clamp at EOF)" })
+map("n", "<C-f>", scroll_clamp "C-f", { desc = "Page down (clamp at EOF)" })
+map("n", "<PageDown>", scroll_clamp "C-f", { desc = "Page down (clamp at EOF)" })
+
+-- diagnostic 전체 메시지 플로팅 창으로 (virtual text는 잘리고 가로 스크롤 안 됨)
+map("n", "gl", vim.diagnostic.open_float, { desc = "Diagnostic float" })
 
 -- persistence.nvim: session restore
 map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Session restore (cwd)" })
