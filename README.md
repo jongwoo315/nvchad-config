@@ -48,7 +48,7 @@ nvim
 :MasonInstallAll
 ```
 
-→ pyright, ruff, html-lsp, css-lsp, lua-language-server, stylua, debugpy 설치
+→ pyright, ruff, html-lsp, css-lsp, lua-language-server, stylua, debugpy, black, isort 설치
 (`lua/plugins/init.lua`의 mason `ensure_installed` 목록 기준)
 
 treesitter 파서(python, javascript 등)는 `ensure_installed`로 자동 설치 — `:TSInstall` 수동 실행 불필요
@@ -84,8 +84,10 @@ treesitter 파서(python, javascript 등)는 `ensure_installed`로 자동 설치
 | `<C-h/j/k/l>` | 창 이동 (NvChad 기본) |
 | `<C-화살표>` | 창 크기 조절 (±2) |
 | `<C-w>=` / `<C-w>\|` / `<C-w>_` | 창 균등 / 너비 최대 / 높이 최대 (vim 내장) |
-| `zl` / `zh`, `zL` / `zH` | 가로 스크롤 1칸 / 반화면 (nowrap 창에서, vim 내장) |
+| `zl` / `zh`, `zL` / `zH` | 가로 스크롤 1칸 / 반화면 (vim 내장) |
 | `<C-d>` | 반 페이지 아래 (EOF 아래 빈 공간 스크롤 방지 커스텀) |
+
+가로 스크롤은 nowrap 창에서만 의미 있음. dap-ui/diffview 패널은 자체적으로 nowrap 설정 — 긴 줄이 잘리면 그 창에서 `:setlocal wrap`으로 줄바꿈 전환 가능.
 
 ### 파일 탐색 (NvChad 기본)
 
@@ -121,9 +123,11 @@ nvim-tree 안에서: `a` 새 파일(끝에 `/`면 디렉토리), `r` rename, `d`
 | `gd` / `gr` | 정의로 이동 / 참조 목록 |
 | `K` | hover 문서 |
 | `<leader>ca` | code action |
-| `<leader>ra` | rename (커스텀 — NvChad 기본 대체) |
+| `<leader>ra` | rename — 프로젝트 전체 참조 일괄 변경 (같은 변수/함수명 한 번에) |
 | `[d` / `]d` | 이전 / 다음 diagnostic |
-| `<leader>fm` | 포맷 (conform — python은 isort → black 순서) |
+| `<leader>fm` | 포맷 (conform — python은 isort → black 순서로 실행) |
+
+rename이 여러 파일을 수정하면 버퍼로만 열림 — `:wa`로 전부 저장. LSP 없는 파일은 `:%s/old/new/g`.
 
 ### Git
 
