@@ -29,6 +29,15 @@ M.ui = {
 	statusline = {
 		order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "venv", "cwd", "cursor" },
 		modules = {
+			-- 기본 cwd 모듈은 마지막 디렉토리명만 표시 → 전체 경로(~ 축약)로 교체
+			cwd = function()
+				if vim.o.columns <= 85 then
+					return ""
+				end
+				local path = vim.fn.fnamemodify(vim.uv.cwd(), ":~")
+				return "%#St_cwd_icon#" .. "󰉋 " .. "%#St_cwd_text# " .. path .. " "
+			end,
+
 			venv = function()
 				local ok, vs = pcall(require, "venv-selector")
 				if not ok then
