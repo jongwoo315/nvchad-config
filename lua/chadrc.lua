@@ -35,7 +35,11 @@ M.ui = {
 					return ""
 				end
 				local path = vim.fn.fnamemodify(vim.uv.cwd(), ":~")
-				return "%#St_cwd_icon#" .. " 󰉋 " .. "%#St_cwd_text# " .. path .. " "
+				local stl = require("nvconfig").ui.statusline
+				local seps = require("nvchad.stl.utils").separators
+				local sep_l = (type(stl.separator_style) == "table" and stl.separator_style.left)
+					or seps[stl.separator_style].left
+				return "%#St_cwd_sep#" .. sep_l .. "%#St_cwd_icon#" .. "󰉋 " .. "%#St_cwd_text# " .. path .. " "
 			end,
 
 			venv = function()
