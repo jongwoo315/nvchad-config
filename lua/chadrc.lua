@@ -35,7 +35,7 @@ M.ui = {
 					return ""
 				end
 				local path = vim.fn.fnamemodify(vim.uv.cwd(), ":~")
-				return "%#St_cwd_icon#" .. "󰉋 " .. "%#St_cwd_text# " .. path .. " "
+				return "%#St_cwd_icon#" .. " 󰉋 " .. "%#St_cwd_text# " .. path .. " "
 			end,
 
 			venv = function()
