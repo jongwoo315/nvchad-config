@@ -14,6 +14,10 @@ map("n", "<leader>ra", vim.lsp.buf.rename, { desc = "LSP rename" })
 map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Buffer next" })
 map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Buffer prev" })
 
+-- bufferline: reorder current buffer tab left/right
+map("n", "<A-,>", "<cmd>BufferLineMovePrev<cr>", { desc = "Buffer tab move left" })
+map("n", "<A-.>", "<cmd>BufferLineMoveNext<cr>", { desc = "Buffer tab move right" })
+
 -- close buffer, keep window layout (tabufline disabled → close_buffer() crashes)
 map("n", "<leader>x", function()
   local cur = vim.api.nvim_get_current_buf()
@@ -63,6 +67,16 @@ map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Window height +" })
 map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Window height -" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Window width -" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Window width +" })
+
+-- <C-d>: 마지막 줄이 화면 바닥 아래로 지나가지 않게 (EOF 밑 빈 공간 스크롤 방지)
+map("n", "<C-d>", function()
+  vim.cmd 'execute "normal! \\<C-d>"'
+  if vim.fn.line "w$" >= vim.fn.line "$" then
+    local cur = vim.api.nvim_win_get_cursor(0)
+    vim.cmd "normal! Gzb" -- 마지막 줄을 창 바닥에 정렬
+    vim.api.nvim_win_set_cursor(0, cur)
+  end
+end, { desc = "Half page down (clamp at EOF)" })
 
 -- persistence.nvim: session restore
 map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Session restore (cwd)" })

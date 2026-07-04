@@ -79,10 +79,13 @@ treesitter 파서(python, javascript 등)는 `ensure_installed`로 자동 설치
 | `jk` (insert) | ESC |
 | `;` | `:` (command mode) |
 | `<Tab>` / `<S-Tab>` | 다음 / 이전 버퍼 |
+| `<A-,>` / `<A-.>` | 버퍼 탭 순서 왼쪽 / 오른쪽으로 이동 |
 | `<leader>x` | 버퍼 닫기 (창 레이아웃 유지) |
 | `<C-h/j/k/l>` | 창 이동 (NvChad 기본) |
 | `<C-화살표>` | 창 크기 조절 (±2) |
 | `<C-w>=` / `<C-w>\|` / `<C-w>_` | 창 균등 / 너비 최대 / 높이 최대 (vim 내장) |
+| `zl` / `zh`, `zL` / `zH` | 가로 스크롤 1칸 / 반화면 (nowrap 창에서, vim 내장) |
+| `<C-d>` | 반 페이지 아래 (EOF 아래 빈 공간 스크롤 방지 커스텀) |
 
 ### 파일 탐색 (NvChad 기본)
 
@@ -103,7 +106,7 @@ nvim-tree 안에서: `a` 새 파일(끝에 `/`면 디렉토리), `r` rename, `d`
 | `<leader>ca` | code action |
 | `<leader>ra` | rename (커스텀 — NvChad 기본 대체) |
 | `[d` / `]d` | 이전 / 다음 diagnostic |
-| `<leader>fm` | 포맷 (conform) |
+| `<leader>fm` | 포맷 (conform — python은 isort → black 순서) |
 
 ### Git
 

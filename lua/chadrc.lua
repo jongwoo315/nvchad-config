@@ -16,6 +16,11 @@ M.base46 = {
 
 -- M.nvdash = { load_on_startup = true }
 
+-- Alt+v / Alt+h 터미널 크기 (세션엔 터미널 저장 안 하므로 여기가 크기의 단일 기준)
+M.term = {
+	sizes = { sp = 0.3, vsp = 0.3 },
+}
+
 M.ui = {
 	tabufline = {
 		enabled = false,

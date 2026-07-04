@@ -25,6 +25,8 @@ return {
         "lua-language-server",
         "stylua",
         "debugpy",
+        "black",
+        "isort",
       },
     },
   },
