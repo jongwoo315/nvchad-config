@@ -97,6 +97,23 @@ treesitter 파서(python, javascript 등)는 `ensure_installed`로 자동 설치
 
 nvim-tree 안에서: `a` 새 파일(끝에 `/`면 디렉토리), `r` rename, `d` delete, `c`/`p` 복사/붙여넣기, `g?` 도움말
 
+### 터미널 (NvChad 기본)
+
+| 키 | 동작 |
+|---|---|
+| `<A-v>` / `<A-h>` | 세로 / 가로 토글 터미널 (크기: chadrc `M.term.sizes`, 30%) |
+| `<A-i>` | 플로팅 토글 터미널 |
+| `<leader>v` / `<leader>h` | 새 세로 / 가로 터미널 |
+| `<C-x>` (terminal) | 터미널 모드 탈출 → 창 이동·yank 가능 |
+
+### 편집 (NvChad 기본)
+
+| 키 | 동작 |
+|---|---|
+| `<leader>/` | 주석 토글 (normal: 현재 줄, visual: 선택 영역) |
+| `<leader>n` / `rn` | 줄번호 / 상대 줄번호 토글 |
+| `<leader>ch` | 키맵 치트시트 |
+
 ### LSP
 
 | 키 | 동작 |
