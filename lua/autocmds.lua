@@ -45,12 +45,20 @@ local function nvimtree_win()
   end
 end
 
+-- mksession cannot restore nvim-tree's special (nofile) buffer, so the tree
+-- window is not recreated on load — relying on the session to keep the width
+-- fails. Instead: record the width and CLOSE the tree before save, then REOPEN
+-- it at the saved width after load. Focus returns to the editor window.
 vim.api.nvim_create_autocmd("User", {
   pattern = "PersistenceSavePre",
   callback = function()
     local w = nvimtree_win()
     if w then
       pcall(vim.fn.writefile, { tostring(vim.api.nvim_win_get_width(w)) }, tree_width_file)
+      require("nvim-tree.api").tree.close()
+    else
+      -- tree wasn't open at save; don't reopen it on the next load
+      pcall(vim.fn.delete, tree_width_file)
     end
   end,
 })
@@ -65,11 +73,14 @@ vim.api.nvim_create_autocmd("User", {
     if not width then
       return
     end
-    -- defer so it runs after nvim-tree has settled its own width on load
     vim.defer_fn(function()
-      if nvimtree_win() then
-        require("nvim-tree.api").tree.resize { width = width }
+      local api = require "nvim-tree.api"
+      local cur = vim.api.nvim_get_current_win()
+      api.tree.open()
+      api.tree.resize { width = width }
+      if vim.api.nvim_win_is_valid(cur) then
+        vim.api.nvim_set_current_win(cur)
       end
-    end, 100)
+    end, 50)
   end,
 })
