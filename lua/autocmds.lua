@@ -77,7 +77,9 @@ vim.api.nvim_create_autocmd("User", {
       local api = require "nvim-tree.api"
       local cur = vim.api.nvim_get_current_win()
       api.tree.open()
-      api.tree.resize { width = width }
+      -- {absolute} routes to view.resize(); {width} hits configure_width which is
+      -- absent in this nvim-tree version and errors.
+      api.tree.resize { absolute = width }
       if vim.api.nvim_win_is_valid(cur) then
         vim.api.nvim_set_current_win(cur)
       end
