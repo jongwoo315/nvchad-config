@@ -179,6 +179,23 @@ return {
     },
   },
 
+  -- nvim-tree: reactive overrides on NvChad base
+  --   filesystem_watchers  - reflect external file changes (e.g. terminal cp) without manual R
+  --   preserve_window_proportions - keep manual tree width when other windows open
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      view = {
+        preserve_window_proportions = true,
+      },
+      filesystem_watchers = {
+        enable = true,
+        debounce_delay = 50,
+        ignore_dirs = { "node_modules", ".git" },
+      },
+    },
+  },
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 }
