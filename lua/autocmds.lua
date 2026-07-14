@@ -86,3 +86,16 @@ vim.api.nvim_create_autocmd("User", {
     end, 50)
   end,
 })
+
+-- illuminate: subtle block highlight for symbol under cursor, re-derived on every
+-- theme change (custom highlights get cleared on :colorscheme). Reuse Visual's bg
+-- so it matches the active theme; fall back to a neutral dark block.
+local function set_illuminate_hl()
+  local vis = vim.api.nvim_get_hl(0, { name = "Visual" })
+  local bg = (vis and vis.bg) or 0x3b4261
+  for _, g in ipairs { "IlluminatedWordText", "IlluminatedWordRead", "IlluminatedWordWrite" } do
+    vim.api.nvim_set_hl(0, g, { bg = bg, underline = false })
+  end
+end
+vim.api.nvim_create_autocmd("ColorScheme", { callback = set_illuminate_hl })
+set_illuminate_hl()
