@@ -91,4 +91,30 @@ map("n", "<leader>qs", function() require("persistence").load() end, { desc = "S
 map("n", "<leader>ql", function() require("persistence").load { last = true } end, { desc = "Session restore last" })
 map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Session don't save" })
 
+-- 토글 터미널 크기 유지: NvChad는 toggle-off 시 창을 닫고 toggle-on 마다
+-- config.sizes(0.3)로 강제 리사이즈 → 수동 리사이즈(<C-Left/Right>)가 사라짐.
+-- 숨기기 직전 현재 크기를 fraction으로 저장했다가 다시 열 때 opts.size로 주입.
+local term_size = {} -- id -> fraction
+
+local function persist_term_toggle(opts)
+  local win
+  for _, w in ipairs(vim.api.nvim_list_wins()) do
+    local t = (vim.g.nvchad_terms or {})[tostring(vim.api.nvim_win_get_buf(w))]
+    if t and t.id == opts.id then
+      win = w
+      break
+    end
+  end
+  if win then -- 현재 보임 → 닫히기 전 크기 기록
+    term_size[opts.id] = opts.pos == "vsp" and vim.api.nvim_win_get_width(win) / vim.o.columns
+      or vim.api.nvim_win_get_height(win) / vim.o.lines
+  else -- 숨김 → 저장된 크기 복원 (nil이면 기본값)
+    opts.size = term_size[opts.id]
+  end
+  require("nvchad.term").toggle(opts)
+end
+
+map({ "n", "t" }, "<A-v>", function() persist_term_toggle { pos = "vsp", id = "vtoggleTerm" } end, { desc = "Terminal toggle vertical (keep size)" })
+map({ "n", "t" }, "<A-h>", function() persist_term_toggle { pos = "sp", id = "htoggleTerm" } end, { desc = "Terminal toggle horizontal (keep size)" })
+
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
